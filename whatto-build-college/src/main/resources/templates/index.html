@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatToBuild College Edition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">WhatToBuild College</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/recommend">Recommend</a>
+                <a class="nav-link" href="/analyze">Analyze</a>
+                <a class="nav-link" href="/progress">Progress</a>
+                <a class="nav-link" href="/compare">Compare</a>
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="display-4 mb-4">Find Your Perfect Project</h1>
+                <p class="lead">AI-powered project recommendations tailored for college students. Build your portfolio with projects that match your skills and career goals.</p>
+                
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">🎯 Get Recommendations</h5>
+                                <p class="card-text">Tell us about your skills and interests, and we'll suggest perfect projects for you.</p>
+                                <a href="/recommend" class="btn btn-primary">Start Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">📊 Track Progress</h5>
+                                <p class="card-text">Monitor your learning journey and celebrate your achievements.</p>
+                                <a href="/progress" class="btn btn-outline-primary">View Progress</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <h3>Featured Projects</h3>
+                <div th:each="project : ${featuredProjects}">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title" th:text="${project.name}">Project Name</h6>
+                            <p class="card-text small" th:text="${project.description}">Project description</p>
+                            <span class="badge bg-secondary" th:text="${project.difficulty}">Difficulty</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="/projects" class="btn btn-outline-primary btn-sm">View All Projects</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

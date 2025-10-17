@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Recommendations - WhatToBuild</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">WhatToBuild College</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link active" href="/recommend">Recommend</a>
+                <a class="nav-link" href="/analyze">Analyze</a>
+                <a class="nav-link" href="/progress">Progress</a>
+                <a class="nav-link" href="/compare">Compare</a>
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Get Personalized Project Recommendations</h2>
+                
+                <form id="recommendForm">
+                    <div class="mb-3">
+                        <label for="studentId" class="form-label">Student ID</label>
+                        <input type="number" class="form-control" id="studentId" value="1" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="branch" class="form-label">Academic Branch</label>
+                        <select class="form-select" id="branch" required>
+                            <option value="">Select your branch</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Mechanical">Mechanical</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">Your Skills</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Java" id="skill1">
+                            <label class="form-check-label" for="skill1">Java</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Python" id="skill2">
+                            <label class="form-check-label" for="skill2">Python</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="JavaScript" id="skill3">
+                            <label class="form-check-label" for="skill3">JavaScript</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="React" id="skill4">
+                            <label class="form-check-label" for="skill4">React</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Spring Boot" id="skill5">
+                            <label class="form-check-label" for="skill5">Spring Boot</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Get Recommendations</button>
+                </form>
+                
+                <div id="results" class="mt-5" style="display: none;">
+                    <h3>Your Personalized Recommendations</h3>
+                    <div id="recommendationsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/scripts.js"></script>
+</body>
+</html>
+

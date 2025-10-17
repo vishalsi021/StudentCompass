@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - WhatToBuild</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">WhatToBuild College</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/recommend">Recommend</a>
+                <a class="nav-link" href="/analyze">Analyze</a>
+                <a class="nav-link" href="/progress">Progress</a>
+                <a class="nav-link" href="/compare">Compare</a>
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Available Projects</h2>
+            <div>
+                <select class="form-select" id="difficultyFilter" onchange="filterProjects()">
+                    <option value="">All Difficulties</option>
+                    <option value="BEGINNER">Beginner</option>
+                    <option value="INTERMEDIATE">Intermediate</option>
+                    <option value="ADVANCED">Advanced</option>
+                    <option value="EXPERT">Expert</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="projectsContainer">
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Loading projects...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let allProjects = [];
+        
+        async function loadProjects() {
+            try {
+                const response = await fetch('/api/projects');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allProjects = data.projects;
+                    displayProjects(allProjects);
+                } else {
+                    document.getElementById('projectsContainer').innerHTML = 
+                        '<div class="alert alert-danger">Error loading projects: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                document.getElementById('projectsContainer').innerHTML = 
+                    '<div class="alert alert-danger">Error: ' + error.message + '</div>';
+            }
+        }
+        
+        function displayProjects(projects) {
+            if (projects.length === 0) {
+                document.getElementById('projectsContainer').innerHTML = 
+                    '<div class="alert alert-info">No projects found.</div>';
+                return;
+            }
+            
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = projects.map(project => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">${project.name}</h5>
+                                <p class="card-text">${project.description || 'No description available.'}</p>
+                                <div class="mb-2">
+                                    <span class="badge bg-primary me-2">${project.difficulty}</span>
+                                    <span class="badge bg-secondary me-2">${project.status}</span>
+                                    ${project.estimatedHours ? `<span class="badge bg-info">${project.estimatedHours} hours</span>` : ''}
+                                </div>
+                                ${project.skills && project.skills.length > 0 ? 
+                                    '<div><strong>Skills:</strong> ' + project.skills.join(', ') + '</div>' : ''}
+                            </div>
+                            <div class="text-end">
+                                <small class="text-muted">Created: ${new Date(project.createdAt).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function filterProjects() {
+            const difficulty = document.getElementById('difficultyFilter').value;
+            if (difficulty === '') {
+                displayProjects(allProjects);
+            } else {
+                const filtered = allProjects.filter(project => project.difficulty === difficulty);
+                displayProjects(filtered);
+            }
+        }
+        
+        // Load projects on page load
+        loadProjects();
+    </script>
+</body>
+</html>
